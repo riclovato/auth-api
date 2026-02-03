@@ -25,6 +25,8 @@ public class UserController {
     public ResponseEntity<UserResponse> create(
             @RequestBody CreateUserRequest request) {
         User user = User.builder()
+                .username(request.username())
+                .fullName(request.fullName())
                 .email(request.email())
                 .password(request.password())
                 .build();
