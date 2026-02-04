@@ -12,6 +12,8 @@ import com.ricardolovato.usermanagement.dto.UserResponse;
 import com.ricardolovato.usermanagement.entity.User;
 import com.ricardolovato.usermanagement.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -23,7 +25,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponse> create(
-            @RequestBody CreateUserRequest request) {
+            @Valid @RequestBody CreateUserRequest request) {
         User user = User.builder()
                 .username(request.username())
                 .fullName(request.fullName())
