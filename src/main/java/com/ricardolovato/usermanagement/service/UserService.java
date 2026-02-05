@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import com.ricardolovato.usermanagement.entity.User;
-import com.ricardolovato.usermanagement.repository.UserRepository;
 import com.ricardolovato.usermanagement.exception.BusinessException;
+import com.ricardolovato.usermanagement.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -19,9 +19,12 @@ public class UserService {
 
     public User create(User user) {
 
-        boolean emailAlreadyInUse = userRepository.findByEmail(user.getEmail()).isPresent();
-        if (emailAlreadyInUse) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new BusinessException("Email already in use");
+        }
+
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new BusinessException("Username already in use");
         }
 
         user.setCreatedAt(LocalDateTime.now());
