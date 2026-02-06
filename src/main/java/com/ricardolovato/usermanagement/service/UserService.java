@@ -2,6 +2,7 @@ package com.ricardolovato.usermanagement.service;
 
 import java.time.LocalDateTime;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ricardolovato.usermanagement.entity.User;
@@ -10,10 +11,11 @@ import com.ricardolovato.usermanagement.repository.UserRepository;
 
 @Service
 public class UserService {
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -28,6 +30,7 @@ public class UserService {
         }
 
         user.setCreatedAt(LocalDateTime.now());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
