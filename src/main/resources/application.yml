@@ -23,3 +23,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-minutes: 60

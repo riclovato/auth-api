@@ -28,6 +28,8 @@ public class SecurityConfig {
 
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+
                         .anyRequest().authenticated())
 
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
