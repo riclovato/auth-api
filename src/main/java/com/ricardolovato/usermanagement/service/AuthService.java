@@ -28,6 +28,6 @@ public class AuthService {
             throw new BusinessException("Invalid credentials");
         }
 
-        return jwtService.generateToken(user.getEmail());
+        return jwtService.generateToken(user.getEmail(), user.getRole().name());
     }
 }

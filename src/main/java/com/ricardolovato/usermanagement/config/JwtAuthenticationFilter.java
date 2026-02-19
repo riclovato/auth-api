@@ -25,6 +25,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
     }
 
+   @Override
+protected boolean shouldNotFilter(HttpServletRequest request) {
+    String path = request.getServletPath();
+    String method = request.getMethod();
+
+    return path.startsWith("/h2-console")
+            || ("POST".equals(method) && path.startsWith("/api/v1/users"))
+            || ("POST".equals(method) && path.startsWith("/api/v1/auth/login"));
+}
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -47,7 +56,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String subject = jwtService.extractSubject(token);
 
-        var authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        String role = jwtService.extractRole(token); // "USER" ou "ADMIN"
+
+        var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
         var authentication = new UsernamePasswordAuthenticationToken(
                 subject,

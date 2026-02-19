@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ricardolovato.usermanagement.entity.Role;
 import com.ricardolovato.usermanagement.entity.User;
 import com.ricardolovato.usermanagement.exception.BusinessException;
 import com.ricardolovato.usermanagement.repository.UserRepository;
@@ -31,6 +32,7 @@ public class UserService {
 
         user.setCreatedAt(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
 
         return userRepository.save(user);
     }
