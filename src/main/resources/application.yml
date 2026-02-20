@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: user-management
+  jackson:
+    default-property-inclusion: non_null
+    date-format: yyyy-MM-dd'T'HH:mm:ss
 
   datasource:
     url: jdbc:h2:mem:testdb
