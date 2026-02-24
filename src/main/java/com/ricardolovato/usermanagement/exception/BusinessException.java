@@ -1,8 +1,14 @@
 package com.ricardolovato.usermanagement.exception;
 
-public class BusinessException extends RuntimeException {
+import org.springframework.http.HttpStatus;
 
-    public BusinessException(String message) {
+public class BusinessException extends RuntimeException {
+    private final HttpStatus status;
+    public BusinessException(String message, HttpStatus status) {
         super(message);
+        this.status = status;
+    }
+    public HttpStatus getStatus() {
+        return status;
     }
 }

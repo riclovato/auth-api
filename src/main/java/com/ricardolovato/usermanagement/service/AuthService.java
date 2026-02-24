@@ -1,5 +1,6 @@
 package com.ricardolovato.usermanagement.service;
 
+import org.springframework.http.HttpStatus;
 import com.ricardolovato.usermanagement.entity.User;
 import com.ricardolovato.usermanagement.exception.BusinessException;
 import com.ricardolovato.usermanagement.repository.UserRepository;
@@ -21,11 +22,11 @@ public class AuthService {
 
     public String login(String email, String rawPassword) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessException("Invalid credentials"));
+                .orElseThrow(() -> new BusinessException("Invalid credentials", HttpStatus.UNAUTHORIZED));
 
         boolean ok = passwordEncoder.matches(rawPassword, user.getPassword());
         if (!ok) {
-            throw new BusinessException("Invalid credentials");
+            throw new BusinessException("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
 
         return jwtService.generateToken(user.getEmail(), user.getRole().name());
